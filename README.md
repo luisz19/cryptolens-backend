@@ -21,7 +21,6 @@ Se você já está nesta pasta, pode pular.
 
 ```bash
 python3 -m venv .venv
-python3 -m venv .venv
 
 pip install -U pip
 pip install -r requirements.txt
