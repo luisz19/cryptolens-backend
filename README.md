@@ -21,19 +21,11 @@ Se você já está nesta pasta, pode pular.
 
 ```bash
 python3 -m venv .venv
-source .venv/bin/activate
+python3 -m venv .venv
 
 pip install -U pip
 pip install -r requirements.txt
 ```
-
-Principais libs:
-- fastapi, uvicorn: API e servidor
-- SQLAlchemy, alembic: ORM e migrações
-- mysql-connector-python: driver MySQL (síncrono)
-- python-jose, passlib[bcrypt]: JWT e hashing de senha
-- python-dotenv: variáveis de ambiente
-- numpy, pandas, scikit-learn, joblib: ML básico
 
 ## 3) Configuração do .env
 
@@ -49,15 +41,6 @@ Crie o banco de dados:
 
 ```sql
 CREATE DATABASE IF NOT EXISTS crypto_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
-### Usando Docker (opcional)
-
-```bash
-docker run -d --name mysql8 \
-	-e MYSQL_ROOT_PASSWORD=senha \
-	-e MYSQL_DATABASE=crypto_db \
-	-p 3306:3306 \
-	mysql:8
 ```
 
 ## 5) Rodar a API

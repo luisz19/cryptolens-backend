@@ -1,31 +1,17 @@
-# --- API & Server ---
-fastapi>=0.115.0
-uvicorn[standard]>=0.30.0
+fastapi
+uvicorn
+sqlalchemy
+mysql-connector-python
+passlib[bcrypt]
+pyjwt
+python-dotenv
+pymysql
+pydantic[email]
+bcrypt==4.1.3
+passlib
 
-# --- Config & Utils ---
-python-dotenv>=1.0.1
-email-validator>=2.2.0
-
-# --- DB & Migrations ---
-SQLAlchemy>=2.0.30
-alembic>=1.13.2
-mysql-connector-python>=9.0.0  # driver MySQL (sincrono, puro Python)
-# Alternativas de driver (use apenas se precisar):
-# PyMySQL>=1.1.0
-# asyncmy>=0.2.9  # para SQLAlchemy async
-
-# --- Auth & Security ---
-python-jose[cryptography]>=3.3.0
-passlib[bcrypt]>=1.7.4
-
-# --- Data Science / ML ---
 numpy>=1.26.0
 pandas>=2.2.0
 scikit-learn>=1.4.0
 joblib>=1.3.0
-
-# --- Tests (opcional, se for usar pytest) ---
-# pytest>=8.0.0
-# httpx>=0.27.0
-# pytest-asyncio>=0.23.0
 
