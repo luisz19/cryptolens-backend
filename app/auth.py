@@ -82,3 +82,40 @@ def get_user_by_id(user_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Usuário não encontrado")
     return schemas.UserResponse.from_orm(user)
 
+@router.put("/user/{user_id}", response_model=schemas.UserResponse)
+def update_user_by_id(user_id: int, payload: schemas.UserUpdate, db: Session = Depends(get_db)):
+    user = db.query(models.User).filter(models.User.id == user_id).first()
+    if user is None:
+        raise HTTPException(status_code=404, detail="Usuário não encontrado")
+
+    data = payload.model_dump(exclude_unset=True)
+
+    new_email = data.get("email")
+    if new_email and new_email != user.email:
+        exists = db.query(models.User).filter(models.User.email == new_email, models.User.id != user.id).first()
+        if exists:
+            raise HTTPException(status_code=400, detail="E-mail já cadastrado")
+
+    new_password = data.get("password")
+    if new_password:
+        data["password"] = pwd_context.hash(new_password)
+
+    for field, value in data.items():
+        setattr(user, field, value)
+
+    db.add(user)
+    db.commit()
+    db.refresh(user)
+    return schemas.UserResponse.from_orm(user)
+
+@router.delete("/user/{user_id}")
+def delete_user_by_id(user_id: int, db: Session = Depends(get_db)):
+    user = db.query(models.User).filter(models.User.id == user_id).first()
+    if user is None:
+        raise HTTPException(status_code=404, detail="Usuário não encontrado")
+    db.delete(user)
+    db.commit()
+    return {"message": "Usuário deletado com sucesso"}
+
+
+

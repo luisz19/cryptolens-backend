@@ -18,4 +18,15 @@ Content-Type: application/json
 }
 
 ### GET /auth/user/{id}
-GET http://localhost:8000/auth/user/11
+GET http://localhost:8000/auth/user/10
+
+### DELETE /auth/user/{id}
+DELETE http://localhost:8000/auth/user/11
+
+### UPDATE /auth/user/{id}
+PUT http://localhost:8000/auth/user/10
+Content-Type: application/json
+
+{
+    "risk_profile": "agressivo"
+}
