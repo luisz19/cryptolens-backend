@@ -15,7 +15,7 @@ class UserResponse(BaseModel):
     id: int
     name: str
     email: str
-    risk_profile: str 
+    risk_profile: Optional[str] = None 
 
     class Config:
         from_attributes = True
