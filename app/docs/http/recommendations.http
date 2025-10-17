@@ -10,7 +10,7 @@ Content-Type: application/json
 
 {
   "user_id": 1,
-  "crypto_id": 1,
+  "crypto_id": 2,
   "risk_level": "moderado"
 }
 

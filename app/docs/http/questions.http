@@ -6,7 +6,7 @@ POST http://localhost:8000/questionnaire/submit
 Content-Type: application/json
 
 {
-    "user_id": 2,
+    "user_id": 3,
     "answers": [
         { "question_id": 1, "selected_value": "long" },
         { "question_id": 2, "selected_value": "buyMore" },
