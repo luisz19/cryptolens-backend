@@ -4,7 +4,7 @@ Content-Type: application/json
 
 {
     "name": "Luis",
-    "email": "luis45@email.com",
+    "email": "luis4evtry56@email.com",
     "password": "senha123"
 }
 
@@ -13,6 +13,9 @@ POST http://localhost:8000/auth/login
 Content-Type: application/json
 
 {
-    "email": "luis45@email.com",
+    "email": "luis4etr56@email.com",
     "password": "senha123"
 }
+
+### GET /auth/user/{id}
+GET http://localhost:8000/auth/user/11
