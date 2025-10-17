@@ -1,0 +1,23 @@
+### GET /recommendations
+GET http://localhost:8000/recommendations/
+
+### GET /recommendations/{id}
+GET http://localhost:8000/recommendations/2
+
+### POST /recommendations
+POST http://localhost:8000/recommendations
+Content-Type: application/json
+
+{
+  "user_id": 1,
+  "crypto_id": 1,
+  "risk_level": "moderado"
+}
+
+### PATCH /recommendations/{id}
+PATCH http://localhost:8000/recommendations/1
+Content-Type: application/json
+
+{
+  "risk_level": "baixo"
+}

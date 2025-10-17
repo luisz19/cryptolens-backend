@@ -1,5 +1,6 @@
 from pydantic import BaseModel, EmailStr
 from typing import Optional
+from enum import Enum as PyEnum
 
 class UserCreate(BaseModel):
     name: str
@@ -50,3 +51,40 @@ class CryptoCreate(BaseModel):
 
     class Config:
         from_attributes = True
+
+class RecommendationBase(BaseModel):
+    user_id: int
+    crypto_id: int
+    risk_level: Optional["RiskLevelEnum"] = None
+
+    class Config:
+        from_attributes = True
+
+class RecommendationResponse(BaseModel):
+    id: int
+    user_id: int
+    crypto_id: int
+    risk_level: Optional["RiskLevelEnum"] = None
+
+    class Config:
+        from_attributes = True
+
+class RecommendationCreate(BaseModel):
+    user_id: int
+    crypto_id: int
+    risk_level: Optional["RiskLevelEnum"] = None
+
+    class Config:
+        from_attributes = True
+
+class RiskLevelUpdate(BaseModel):
+    risk_level: "RiskLevelEnum"
+
+    class Config:
+        from_attributes = True
+
+
+class RiskLevelEnum(str, PyEnum):
+    baixo = "baixo"
+    moderado = "moderado"
+    alto = "alto"
