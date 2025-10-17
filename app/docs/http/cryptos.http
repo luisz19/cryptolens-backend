@@ -1,0 +1,11 @@
+### GET /cryptos
+GET http://localhost:8000/cryptos
+
+### POST /cryptos
+POST http://localhost:8000/cryptos
+Content-Type: application/json
+
+{
+  "name": "DOGECOIN",
+  "symbol": "DOGE"
+}

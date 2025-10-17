@@ -29,3 +29,24 @@ class UserUpdate(BaseModel):
     class Config:
         from_attributes = True
 
+class CryptoBase(BaseModel):
+    name: str
+    symbol: str
+
+    class Config:
+        from_attributes = True
+
+class CryptoResponse(BaseModel):
+    id: int
+    name: str
+    symbol: str
+
+    class Config:
+        from_attributes = True
+
+class CryptoCreate(BaseModel):
+    name: str
+    symbol: str
+
+    class Config:
+        from_attributes = True
