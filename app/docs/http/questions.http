@@ -1,0 +1,36 @@
+### GET /questions
+GET http://localhost:8000/questionnaire/questions
+
+### POST /submit
+POST http://localhost:8000/questionnaire/submit
+Content-Type: application/json
+
+{
+    "user_id": 2,
+    "answers": [
+        { "question_id": 1, "selected_value": "long" },
+        { "question_id": 2, "selected_value": "buyMore" },
+        { "question_id": 3, "selected_value": "advanced" },
+        { "question_id": 4, "selected_value": "maximize" },
+        { "question_id": 5, "selected_value": "over30" }
+    ]
+}
+
+### GET /submission/{user_id}
+GET http://localhost:8000/questionnaire/submission/1
+
+### PUT /submission/{user_id}
+PUT http://localhost:8000/questionnaire/submission/1
+Content-Type: application/json
+
+{
+    "user_id": 1,
+    "answers": [
+        { "question_id": 1, "selected_value": "long" },
+        { "question_id": 2, "selected_value": "buyMore" },
+        { "question_id": 3, "selected_value": "advanced" },
+        { "question_id": 4, "selected_value": "maximize" },
+        { "question_id": 5, "selected_value": "over30" }
+    ]
+}
+

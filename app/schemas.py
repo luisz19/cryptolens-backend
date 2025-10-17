@@ -88,3 +88,39 @@ class RiskLevelEnum(str, PyEnum):
     baixo = "baixo"
     moderado = "moderado"
     alto = "alto"
+
+
+class QuestionOption(BaseModel):
+    id: int
+    value: str
+    label: str
+    score: int
+
+    class Config:
+        from_attributes = True
+
+class Question(BaseModel):
+    id: int
+    question_text: str
+    options: list[QuestionOption]
+
+    class Config:
+        from_attributes = True
+
+class QuestionnaireAnswerIn(BaseModel):
+    question_id: int
+    selected_value: Optional[str] = None  
+    selected_option_id: Optional[int] = None 
+
+class QuestionnaireSubmitIn(BaseModel):
+    user_id: int
+    answers: list[QuestionnaireAnswerIn]
+
+class QuestionnaireResult(BaseModel):
+    submission_id: int
+    total_score: int
+    max_score: int
+    risk_level: RiskLevelEnum
+
+    class Config:
+        from_attributes = True
