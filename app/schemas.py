@@ -124,3 +124,15 @@ class QuestionnaireResult(BaseModel):
 
     class Config:
         from_attributes = True
+
+class UserAnswer(BaseModel):
+    id: int
+    submission_id: int
+    user_id: int
+    question_id: int
+    option_id: Optional[int] = None
+    selected_value: str
+    score: int
+
+    class Config:
+        from_attributes = True

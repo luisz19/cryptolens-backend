@@ -1,8 +1,12 @@
+from app.utils.security import (
+    get_user_id_from_payload,
+    require_auth,
+    create_access_token,
+    ACCESS_TOKEN_EXPIRE_MINUTES,
+)
 from fastapi import APIRouter, Depends, HTTPException
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
 from passlib.context import CryptContext
-import jwt, datetime, os
 from dotenv import load_dotenv
 
 from app import models, schemas
@@ -11,11 +15,7 @@ from app.database import SessionLocal
 load_dotenv() # TROCAR DEPOIS
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
-SECRET_KEY = os.getenv("JWT_SECRET", "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
-ALGORITHM = os.getenv("JWT_ALGORITHM", "HS256")
-ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", "120"))
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-bearer_scheme = HTTPBearer(auto_error=True)
 
 def get_db():
     db = SessionLocal()
@@ -23,20 +23,6 @@ def get_db():
         yield db
     finally:
         db.close()
-
-def create_token(user_id: int, email: str | None = None):
-    now = datetime.datetime.utcnow()
-    exp = now + datetime.timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    payload = {
-        "sub": str(user_id),
-        "uid": user_id,
-        "iat": int(now.timestamp()),
-        "exp": int(exp.timestamp()),
-    }
-    if email:
-        payload["email"] = email
-    return jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
-
 
 @router.post("/register")
 def register(user: schemas.UserCreate, db: Session = Depends(get_db)):
@@ -50,7 +36,7 @@ def register(user: schemas.UserCreate, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(new_user)
 
-    token = create_token(new_user.id, email=new_user.email)
+    token = create_access_token(user_id=new_user.id, email=new_user.email)
 
     return {
         "message": "Usuário criado com sucesso!", 
@@ -66,21 +52,13 @@ def login(user: schemas.UserLogin, db: Session = Depends(get_db)):
     if not user_db or not pwd_context.verify(user.password, user_db.password):
         raise HTTPException(status_code=401, detail="Credenciais inválidas")
 
-    token = create_token(user_db.id, email=user_db.email)
+    token = create_access_token(user_id=user_db.id, email=user_db.email)
     return {
         "access_token": token,
         "token_type": "bearer",
         "user_id": user_db.id,
         "expires_in": ACCESS_TOKEN_EXPIRE_MINUTES * 60,
     }
-
-@router.get("/user/{user_id}", response_model=schemas.UserResponse)
-def get_user_by_id(user_id: int, db: Session = Depends(get_db)):
-    
-    user = db.query(models.User).filter(models.User.id == user_id).first()
-    if user is None:
-        raise HTTPException(status_code=404, detail="Usuário não encontrado")
-    return schemas.UserResponse.from_orm(user)
 
 @router.put("/user/{user_id}", response_model=schemas.UserResponse)
 def update_user_by_id(user_id: int, payload: schemas.UserUpdate, db: Session = Depends(get_db)):
@@ -117,5 +95,15 @@ def delete_user_by_id(user_id: int, db: Session = Depends(get_db)):
     db.commit()
     return {"message": "Usuário deletado com sucesso"}
 
-
+@router.get("/me")
+def me(payload: dict = Depends(require_auth), db: Session = Depends(get_db)):
+    user_id = get_user_id_from_payload(payload)
+    user = db.query(models.User).filter(models.User.id == user_id).first()
+    if user is None:
+        raise HTTPException(status_code=404, detail="Usuário não encontrado")
+    return {"user_id": user_id,
+            "email": user.email,
+            "name": user.name,
+            "risk_profile": user.risk_profile,
+    }
 

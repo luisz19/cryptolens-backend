@@ -1,22 +1,28 @@
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0IiwidWlkIjo0LCJpYXQiOjE3NjA3NTIxMDUsImV4cCI6MTc2MDc1OTMwNSwiZW1haWwiOiJsdWlzM0BlbWFpbC5jb20ifQ.Onq-Q_2AJrCevm-4RtcFNAcwLIrgK9Rzm7MS2uNwPnw
+
 ### GET /recommendations
 GET http://localhost:8000/recommendations/
+Authorization: Bearer {{token}}
 
 ### GET /recommendations/{id}
-GET http://localhost:8000/recommendations/2
+GET http://localhost:8000/recommendations/8
+Authorization: Bearer {{token}}
 
 ### POST /recommendations
 POST http://localhost:8000/recommendations
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
-  "user_id": 1,
-  "crypto_id": 2,
+  "user_id": 4,
+  "crypto_id": 3,
   "risk_level": "moderado"
 }
 
 ### PATCH /recommendations/{id}
-PATCH http://localhost:8000/recommendations/1
+PATCH http://localhost:8000/recommendations/9
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
   "risk_level": "baixo"

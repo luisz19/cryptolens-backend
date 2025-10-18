@@ -4,18 +4,22 @@ Content-Type: application/json
 
 {
     "name": "Luis",
-    "email": "luis@email.com",
+    "email": "luis30@email.com",
     "password": "senha123"
 }
 
 ### POST /auth/login
+# @name login
 POST http://localhost:8000/auth/login
 Content-Type: application/json
 
 {
-    "email": "luis@email.com",
+    "email": "luis30@email.com",
     "password": "senha123"
 }
+
+### Defina a variável {{token}} com o access_token retornado do login (VS Code REST Client permite)
+@token = {{login.response.body.$.access_token}}
 
 ### GET /auth/user/{id}
 GET http://localhost:8000/auth/user/3
@@ -28,5 +32,9 @@ PUT http://localhost:8000/auth/user/10
 Content-Type: application/json
 
 {
-    "risk_profile": "agressivo"
+    "risk_profile": "moderado"
 }
+
+### GET /auth/me
+GET http://localhost:8000/auth/me
+Authorization: Bearer {{token}}
