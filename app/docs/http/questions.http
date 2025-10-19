@@ -10,7 +10,6 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-    "user_id": 5,
     "answers": [
         { "question_id": 1, "selected_value": "long" },
         { "question_id": 2, "selected_value": "buyMore" },
@@ -29,12 +28,11 @@ GET http://localhost:8000/questionnaire/submission/
 Authorization: Bearer {{token}}
 
 ### PUT /submission/{submission_id}
-PUT http://localhost:8000/questionnaire/submission/7
+PUT http://localhost:8000/questionnaire/submission/1
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-    "user_id": 5,
     "answers": [
         { "question_id": 1, "selected_value": "long" },
         { "question_id": 2, "selected_value": "buyMore" },

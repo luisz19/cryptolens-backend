@@ -113,7 +113,6 @@ class QuestionnaireAnswerIn(BaseModel):
     selected_option_id: Optional[int] = None 
 
 class QuestionnaireSubmitIn(BaseModel):
-    user_id: int
     answers: list[QuestionnaireAnswerIn]
 
 class QuestionnaireResult(BaseModel):

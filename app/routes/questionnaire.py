@@ -16,12 +16,10 @@ def list_questions(db: Session = Depends(get_db), _=Depends(require_auth)):
 @router.post("/submit", response_model=schemas.QuestionnaireResult)
 def submit(data: schemas.QuestionnaireSubmitIn, db: Session = Depends(get_db), payload: dict = Depends(require_auth)):
     auth_user_id = get_user_id_from_payload(payload)
-    if auth_user_id != data.user_id:
-        raise HTTPException(status_code=403, detail="Token não corresponde ao usuário informado")
-    user = db.query(models.User).get(data.user_id)
+    user = db.query(models.User).get(auth_user_id)
     if not user:
         raise HTTPException(status_code=404, detail="Usuário não encontrado")
-    submission = submit_questionnaire(db, data.user_id, [a.model_dump() for a in data.answers])
+    submission = submit_questionnaire(db, auth_user_id, [a.model_dump() for a in data.answers])
     return schemas.QuestionnaireResult(
         submission_id=submission.id,
         total_score=submission.total_score,
@@ -52,14 +50,12 @@ def list_answers(db: Session = Depends(get_db), payload: dict = Depends(require_
 @router.put("/submission/{submission_id}", response_model=schemas.QuestionnaireResult)
 def update_submission(submission_id: int, data: schemas.QuestionnaireSubmitIn, db: Session = Depends(get_db), payload: dict = Depends(require_auth)):
     auth_user_id = get_user_id_from_payload(payload)
-    if auth_user_id != data.user_id:
-        raise HTTPException(status_code=403, detail="Token não corresponde ao usuário informado")
     submission = db.query(models.QuestionnaireSubmission).get(submission_id)
     if not submission:
         raise HTTPException(status_code=404, detail="Submissão não encontrada")
-    if submission.user_id != data.user_id:
+    if submission.user_id != auth_user_id:
         raise HTTPException(status_code=400, detail="Usuário não bate com a submissão")
-    updated_submission = update_questionnaire_submission(db, submission_id, data.user_id, [a.model_dump() for a in data.answers])
+    updated_submission = update_questionnaire_submission(db, submission_id, auth_user_id, [a.model_dump() for a in data.answers])
     return schemas.QuestionnaireResult(
         submission_id=updated_submission.id,
         total_score=updated_submission.total_score,
