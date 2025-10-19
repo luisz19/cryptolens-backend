@@ -12,6 +12,19 @@ from app import models
 
 load_dotenv()
 
+CRYPTOS = [
+    {"name": "Bitcoin", "symbol": "BTC"},
+    {"name": "Ethereum", "symbol": "ETH"},
+    {"name": "Dogecoin", "symbol": "DOGE"},
+    {"name": "Cardano", "symbol": "ADA"},
+    {"name": "Binance Smart Chain", "symbol": "BNB"},
+    {"name": "XRP Ledger", "symbol": "XRP"},
+    {"name": "Solana", "symbol": "SOL"},
+    {"name": "Polkadot", "symbol": "DOT"},
+    {"name": "Litecoin", "symbol": "LTC"},
+    {"name": "TRON", "symbol": "TRX"},
+]
+
 QUESTIONS = [
     {
         "text": "Qual o seu horizonte de investimento em criptomoedas?",
@@ -78,6 +91,19 @@ def seed_questions(db: Session):
     print("Seeded questions and options.")
 
 
+def seed_cryptos(db: Session):
+    # insere somente as que não existem (idempotente por symbol)
+    existing = {c.symbol for c in db.query(models.Cryptos).all()}
+    to_insert = [c for c in CRYPTOS if c["symbol"] not in existing]
+    if not to_insert:
+        print("Cryptos already seeded. Skipping.")
+        return
+    for c in to_insert:
+        db.add(models.Cryptos(name=c["name"], symbol=c["symbol"]))
+    db.commit()
+    print(f"Seeded {len(to_insert)} cryptos.")
+
+
 def main():
     # cria tabelas se não existirem (dev convenience)
     from app import models as _models  # noqa: F401
@@ -85,6 +111,7 @@ def main():
     db = SessionLocal()
     try:
         seed_questions(db)
+        seed_cryptos(db)
     finally:
         db.close()
 

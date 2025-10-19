@@ -60,8 +60,10 @@ def login(user: schemas.UserLogin, db: Session = Depends(get_db)):
         "expires_in": ACCESS_TOKEN_EXPIRE_MINUTES * 60,
     }
 
-@router.put("/user/{user_id}", response_model=schemas.UserResponse)
-def update_user_by_id(user_id: int, payload: schemas.UserUpdate, db: Session = Depends(get_db)):
+ 
+@router.put("/user/me", response_model=schemas.UserResponse)
+def update_current_user(payload: schemas.UserUpdate, auth: dict = Depends(require_auth), db: Session = Depends(get_db)):
+    user_id = get_user_id_from_payload(auth)
     user = db.query(models.User).filter(models.User.id == user_id).first()
     if user is None:
         raise HTTPException(status_code=404, detail="Usuário não encontrado")
@@ -86,8 +88,9 @@ def update_user_by_id(user_id: int, payload: schemas.UserUpdate, db: Session = D
     db.refresh(user)
     return schemas.UserResponse.from_orm(user)
 
-@router.delete("/user/{user_id}")
-def delete_user_by_id(user_id: int, db: Session = Depends(get_db)):
+@router.delete("/user/me")
+def delete_current_user(auth: dict = Depends(require_auth), db: Session = Depends(get_db)):
+    user_id = get_user_id_from_payload(auth)
     user = db.query(models.User).filter(models.User.id == user_id).first()
     if user is None:
         raise HTTPException(status_code=404, detail="Usuário não encontrado")

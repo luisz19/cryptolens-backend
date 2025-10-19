@@ -4,7 +4,7 @@ Content-Type: application/json
 
 {
     "name": "Luis",
-    "email": "luis30@email.com",
+    "email": "luis@email.com",
     "password": "senha123"
 }
 
@@ -14,22 +14,17 @@ POST http://localhost:8000/auth/login
 Content-Type: application/json
 
 {
-    "email": "luis30@email.com",
+    "email": "luis@email.com",
     "password": "senha123"
 }
 
 ### Defina a variável {{token}} com o access_token retornado do login (VS Code REST Client permite)
 @token = {{login.response.body.$.access_token}}
 
-### GET /auth/user/{id}
-GET http://localhost:8000/auth/user/3
-
-### DELETE /auth/user/{id}
-DELETE http://localhost:8000/auth/user/11
-
-### UPDATE /auth/user/{id}
-PUT http://localhost:8000/auth/user/10
+### UPDATE /auth/user/me
+PUT http://localhost:8000/auth/user/me
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
     "risk_profile": "moderado"
@@ -37,4 +32,8 @@ Content-Type: application/json
 
 ### GET /auth/me
 GET http://localhost:8000/auth/me
+Authorization: Bearer {{token}}
+
+### DELETE /auth/user/me
+DELETE http://localhost:8000/auth/user/me
 Authorization: Bearer {{token}}
