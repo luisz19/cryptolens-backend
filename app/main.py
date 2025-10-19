@@ -1,5 +1,6 @@
 import os
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from app import auth
 from app.routes import cryptos
 from app.routes import recommendations
@@ -10,6 +11,25 @@ from dotenv import load_dotenv
 load_dotenv()
 
 app = FastAPI(title="CryptoLens API")
+
+# CORS: permite o frontend React/Vite (localhost:5173 por padrão) e origens extras via FRONTEND_ORIGINS
+default_origins = [
+	"http://localhost:5173",
+	"http://127.0.0.1:5173",
+]
+extra_origins_env = os.getenv("FRONTEND_ORIGINS", "").strip()
+if extra_origins_env:
+	for origin in [o.strip() for o in extra_origins_env.split(",") if o.strip()]:
+		if origin not in default_origins:
+			default_origins.append(origin)
+
+app.add_middleware(
+	CORSMiddleware,
+	allow_origins=default_origins,
+	allow_credentials=True,
+	allow_methods=["*"],
+	allow_headers=["*"],
+)
 
 app.include_router(auth.router)
 app.include_router(cryptos.router)
