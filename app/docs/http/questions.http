@@ -1,4 +1,4 @@
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwidWlkIjoyLCJpYXQiOjE3NjA5MDM4ODgsImV4cCI6MTc2MDkxMTA4OCwiZW1haWwiOiJsdWlzQGVtYWlsLmNvbSJ9.-h7xmbeGc7Y-GlOe8n4wmrRkYGPymDUt3YRsnDi564Q
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwidWlkIjoxLCJpYXQiOjE3NjM1ODIzNTYsImV4cCI6MTc2MzU4OTU1NiwiZW1haWwiOiJsdWlzQGVtYWlsLmNvbSJ9.Vw45uKjgtxokZxZEbP7tPJdTvERJGt1mXq-Z3yvtcyE
 
 ### GET /questions
 GET http://localhost:8000/questionnaire/questions

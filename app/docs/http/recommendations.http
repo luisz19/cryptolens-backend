@@ -45,6 +45,6 @@ POST http://localhost:8000/recommendations/recommender
 Authorization: Bearer {{token}}
 
 {
-  "risk_profile": "moderado"
+  "risk_profile": "alto"
 }
 

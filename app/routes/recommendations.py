@@ -20,7 +20,7 @@ def get_recommendations(db: Session = Depends(get_db), payload: dict = Depends(r
     )
     return recommendations
 
-@router.get("/{recommendation_id}")
+@router.get("/id/{recommendation_id}")
 def get_recommendation(recommendation_id: int, db: Session = Depends(get_db), payload: dict = Depends(require_auth)):
     auth_user_id = get_user_id_from_payload(payload)
     recommendation = (
@@ -43,7 +43,7 @@ def create_recommendation(recommendation: schemas.RecommendationCreate, db: Sess
     db.refresh(db_recommendation)
     return db_recommendation
 
-@router.patch("/{recommendation_id}")
+@router.patch("/id/{recommendation_id}")
 def update_recommendation(risk_level: schemas.RiskLevelUpdate, recommendation_id: int, db: Session = Depends(get_db), payload: dict = Depends(require_auth)):
     auth_user_id = get_user_id_from_payload(payload)
     recommendation = (
