@@ -1,4 +1,4 @@
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0IiwidWlkIjo0LCJpYXQiOjE3NjA3NTIxMDUsImV4cCI6MTc2MDc1OTMwNSwiZW1haWwiOiJsdWlzM0BlbWFpbC5jb20ifQ.Onq-Q_2AJrCevm-4RtcFNAcwLIrgK9Rzm7MS2uNwPnw
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwidWlkIjoxLCJpYXQiOjE3NjM1NzkwNTEsImV4cCI6MTc2MzU4NjI1MSwiZW1haWwiOiJsdWlzQGVtYWlsLmNvbSJ9.ff9y7r3yQcN4vfcvwy5k0Gj-ugiCaH3ZhH_-RlwrV0I
 
 ### GET /recommendations
 GET http://localhost:8000/recommendations/
@@ -27,3 +27,24 @@ Authorization: Bearer {{token}}
 {
   "risk_level": "baixo"
 }
+
+### POST /recommendations/recommender
+POST http://localhost:8000/recommendations/recommender
+Authorization: Bearer {{token}}
+
+{
+  "risk_profile": "alto"
+}
+
+### GET /recommendations/recommender
+GET http://localhost:8000/recommendations/recommender
+Authorization: Bearer {{token}}
+
+### POST /recommendations/recomme
+POST http://localhost:8000/recommendations/recommender
+Authorization: Bearer {{token}}
+
+{
+  "risk_profile": "moderado"
+}
+
