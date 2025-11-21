@@ -9,6 +9,6 @@ POST http://localhost:8000/cryptos
 Content-Type: application/json
 
 {
-  "name": "DOGECOIN",
-  "symbol": "DOGE"
+  "name": "BITCOIN",
+  "symbol": "BTC"
 }

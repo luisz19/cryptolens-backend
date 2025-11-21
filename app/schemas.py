@@ -135,3 +135,8 @@ class UserAnswer(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+# Requisição para o recomendador
+class RecommenderRequest(BaseModel):
+    risk_profile: Optional[RiskLevelEnum] = None
